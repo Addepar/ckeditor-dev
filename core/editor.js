@@ -300,6 +300,9 @@
 	}
 
 	function initConfig( editor, instanceConfig ) {
+    if( editor.status === 'destroyed' ) {
+      return;
+    }
 		// Setup the lister for the "customConfigLoaded" event.
 		editor.on( 'customConfigLoaded', function() {
 			if ( instanceConfig ) {
