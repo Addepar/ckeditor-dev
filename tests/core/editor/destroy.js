@@ -41,5 +41,48 @@ bender.test(
     editor.destroy();
 
     assert.isTrue( true, 'The editor can be destroyed before being fully initialized' );
+  },
+
+  'test destroy editor before language files are fully downloaded': function() {
+    var name = 'test_editor',
+        element,
+        editor;
+
+    this.editor.destroy();
+
+    var originalLoader = CKEDITOR.scriptLoader.load;
+    var stubbedLoader = sinon.stub( CKEDITOR.scriptLoader, 'load', function(scriptUrl, callback, scope, showBusy) {
+      if( scriptUrl[0] === 'http://localhost:1030/apps/ckeditor/plugins/elementspath/lang/en.js' ) {
+        setTimeout( function() {
+          originalLoader.call( this, scriptUrl, callback, scope, showBusy );
+        }, 50 );
+      } else {
+        originalLoader.call( this, scriptUrl, callback, scope, showBusy );
+      }
+    } );
+
+    element = CKEDITOR.document.getById( name );
+
+    editor = CKEDITOR.replace( element, {
+      extraPlugins: 'elementspath'
+    } );
+
+    editor.on( 'pluginsLoaded', function() {
+      assert.isFalse( true, 'This should not be called' );
+    } );
+
+    setTimeout( function() {
+      assert.isMatching( editor.status, 'unloaded', 'The editor is not initialized' );
+      editor.destroy();
+    }, 5 );
+
+    setTimeout( function() {
+      debugger
+      resume( function() {
+        assert.isTrue( true, 'The editor can be destroyed before being fully initialized' );
+      } );
+    }, 1000 );
+
+    wait();
   }
 } );
