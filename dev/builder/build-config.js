@@ -73,7 +73,7 @@ var CKBUILDER_CONFIG = {
 		newpage: 0,
 		pagebreak: 0,
 		pastefromlibreoffice: 0,
-		pastefromword: 0,
+		pastefromword: 1,
 		pastetext: 0,
 		editorplaceholder: 0,
 		preview: 0,
