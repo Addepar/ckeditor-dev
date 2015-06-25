@@ -48,6 +48,10 @@ blockquote
 	border-right-width: 5px;
 }
 
+.cke_contents_ltr em {
+	padding-right: 2px;
+}
+
 a
 {
 	color: #0782C1;
