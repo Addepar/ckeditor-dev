@@ -278,6 +278,13 @@
 					var node = getStylesheet( iframe );
 					uiColorMenus.push( node );
 
+          // Cleanup after destroying editor (#589).
+          editor.on( 'destroy', function() {
+            uiColorMenus = CKEDITOR.tools.array.filter( uiColorMenus, function( storedNode ) {
+              return node !== storedNode;
+            } );
+          } );
+
 					var color = editor.getUiColor();
 					// Set uiColor for new panel.
 					if ( color )

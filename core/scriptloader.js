@@ -132,12 +132,14 @@ CKEDITOR.scriptLoader = ( function() {
 								// Some browsers, such as Safari, may call the onLoad function
 								// immediately. Which will break the loading sequence. (#3661)
 								setTimeout( function() {
+                  removeListeners( script );
 									onLoad( url, true );
 								}, 0 );
 							};
 
 							// FIXME: Opera and Safari will not fire onerror.
 							script.$.onerror = function() {
+                removeListeners( script );
 								onLoad( url, false );
 							};
 						}
@@ -153,6 +155,12 @@ CKEDITOR.scriptLoader = ( function() {
 			for ( var i = 0; i < scriptCount; i++ ) {
 				loadScript( scriptUrl[ i ] );
 			}
+
+      function removeListeners( script ) {
+        // Once script loaded or failed remove listeners, which might lead to memory leaks (#589).
+        script.$.onload = null;
+        script.$.onerror = null;
+      }
 		},
 
 		/**
