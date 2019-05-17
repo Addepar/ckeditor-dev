@@ -157,6 +157,8 @@ if ( !CKEDITOR.loader ) {
 						// Some browsers, such as Safari, may call the onLoad function
 						// immediately. Which will break the loading sequence. (#3661)
 						setTimeout( function() {
+              // Once script loaded remove listener, which might lead to memory leaks (#589).
+              script.onload = null;
 							onScriptLoaded( scriptName );
 						}, 0 );
 					};
