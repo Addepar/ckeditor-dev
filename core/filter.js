@@ -71,7 +71,7 @@
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
 	 */
-	CKEDITOR.filter = function( editorOrRules ) {
+	CKEDITOR.filter = function( editorOrRules, rules ) {
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
@@ -164,7 +164,8 @@
 		// Register filter instance.
 		CKEDITOR.filter.instances[ this.id ] = this;
 
-		if ( editorOrRules instanceof CKEDITOR.editor ) {
+    var editor = this.editor = editorOrRules instanceof CKEDITOR.editor ? editorOrRules : null;
+		if ( editor && !rules ) {
 			var editor = this.editor = editorOrRules;
 			this.customConfig = true;
 
@@ -190,7 +191,7 @@
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
 			this.customConfig = false;
-			this.allow( editorOrRules, 'default', 1 );
+			this.allow( rules || editorOrRules, 'default', 1 );
 		}
 	};
 
