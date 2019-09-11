@@ -130,6 +130,11 @@
 	};
 
 	function onDomReady( win ) {
+		if (this.status === 'detached') {
+			// If the editor was destroyed by the time this is called, there is
+			// nothing to do, so exit early
+			return;
+		}
 		var editor = this.editor,
 			doc = win.document,
 			body = doc.body;
