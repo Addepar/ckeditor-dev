@@ -37,7 +37,7 @@ var CKBUILDER_CONFIG = {
 	],
 	plugins: {
 		a11yhelp: 0,
-		about: 1,
+		about: 0,
 		basicstyles: 1,
 		bidi: 0,
 		blockquote: 0,
@@ -93,7 +93,7 @@ var CKBUILDER_CONFIG = {
 		tableselection: 0,
 		tabletools: 0,
 		templates: 0,
-		toolbar: 1,
+		toolbar: 0,
 		undo: 1,
 		uploadimage: 0,
 		wysiwygarea: 1
