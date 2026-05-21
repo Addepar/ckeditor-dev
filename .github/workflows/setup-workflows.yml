@@ -15,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: "Install StepSecurity Action"
+        id: step_security
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
       - name: Checkout default branch
         # https://github.com/marketplace/actions/checkout
         uses: actions/checkout@v2
@@ -56,12 +62,12 @@ jobs:
       - name: Cancel build if update branch already exists
         if: env.SHOULD_CANCEL == 1
         # https://github.com/marketplace/actions/cancel-this-build
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@8f8510d9dea52fcc8eb6ca10d6ce47fd5fc43cd8 # 0.2
 
       - name: Wait for cancellation
         if: env.SHOULD_CANCEL == 1
         # https://github.com/marketplace/actions/wait-sleep
-        uses: jakejarvis/wait-action@master
+        uses: jakejarvis/wait-action@919fc193e07906705e5b7a50f90ea9e74d20b2b0 # master
         with:
           time: '60s'
 
@@ -104,7 +110,7 @@ jobs:
       - name: Push changes
         if: env.HAS_CHANGES == 1
         # https://github.com/marketplace/actions/github-push
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@d30dc2d070765d7e509df00c34c5fa2dd636ff74 # master
         with:
           github_token: ${{ secrets.GH_WORKFLOWS_TOKEN }}
           branch: ${{ env.BRANCH_SOURCE }}
@@ -112,7 +118,7 @@ jobs:
       - name: Create PR
         if: env.HAS_CHANGES == 1 && env.AS_PR == 1
         # https://github.com/marketplace/actions/github-pull-request-action
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 # v2
         with:
           source_branch: "${{ env.BRANCH_SOURCE }}"
           destination_branch: "${{ github.ref }}"
